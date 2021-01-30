@@ -2,11 +2,15 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-interface ToDoStateForm {
+interface ToDoListAppState {
+  toDoItems: any[],
+}
+
+interface ToDoInputState {
   value: string;
 } // Defining type to avoid TypeScript errors when accessing State in component render functions. Explanation: https://stackoverflow.com/questions/47561848/property-value-does-not-exist-on-type-readonly
 
-interface DescriptionFormState {
+interface ToDoAreaState {
   value: string
 };
 
@@ -16,8 +20,8 @@ const Title = () => {
   );
 }
 
-class ToDoForm extends React.Component <{}, ToDoStateForm> {
-  constructor(props: any, state:ToDoStateForm) {
+class ToDoInput extends React.Component <{}, ToDoInputState> {
+  constructor(props: any) {
     super(props);
     this.state = {value: ''};
 
@@ -50,8 +54,8 @@ class ToDoForm extends React.Component <{}, ToDoStateForm> {
   }
 }
 
-class DescriptionForm extends React.Component <{}, DescriptionFormState> {
-  constructor(props: any, state: DescriptionFormState) {
+class ToDoArea extends React.Component <{}, ToDoAreaState> {
+  constructor(props: any) {
     super(props);
     this.state = {
       value: 'Enter a description of the To Do Item here.'
@@ -84,16 +88,49 @@ class DescriptionForm extends React.Component <{}, DescriptionFormState> {
   } 
 }
 
-class ToDoListApp extends React.Component {
+const List = (props: any) => {
+  console.log("list props", props);
+  return (
+    <ul>
+      {props.items.map((item: any, index: number) => {
+        return <li key={item.id}>{item.name}</li>
+      })}
+    </ul>
+  );
+}
+
+class ToDoListApp extends React.Component <{}, ToDoListAppState> {
   constructor(props: any) {
     super(props);
+
+    this.state = {
+      toDoItems: [
+        {
+          name: 'To Do Item Name',
+          description: 'The first to do Item',
+          id: "1a"
+        },
+        {
+          name: 'To Do Item Name',
+          description: 'The second to do Item',
+          id: "1b"
+        },
+        {
+          name: 'To Do Item Name',
+          description: 'The third to do Item',
+          id: "1c"
+        }
+      ]
+    }
   }
 
   render() {
     return (
       <main>
       <Title />
-      <ToDoForm />
+      <ToDoInput />
+      <ToDoArea />
+      <List items={this.state.toDoItems} />
       </main>
     );
   }
