@@ -12,6 +12,7 @@
 /build
 
 # misc
+.esLintcache
 .DS_Store
 .env.local
 .env.development.local
