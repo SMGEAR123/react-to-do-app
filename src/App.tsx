@@ -21,6 +21,7 @@ const Title = () => {
 }
 
 class ToDoInput extends React.Component <{}, ToDoInputState> {
+  placeholder: string = "Enter a name"
   constructor(props: any) {
     super(props);
     this.state = {value: ''};
@@ -46,7 +47,7 @@ class ToDoInput extends React.Component <{}, ToDoInputState> {
       <form onSubmit={this.handleSubmit}>
         <label>
           To Do Item:
-          <input type="text" value={stateValue} onChange={this.handleChange} />
+          <input type="text" value={stateValue} onChange={this.handleChange} placeholder={this.placeholder} />
         </label>
         <input type="submit" value="Submit" />
       </form>
@@ -55,10 +56,11 @@ class ToDoInput extends React.Component <{}, ToDoInputState> {
 }
 
 class ToDoArea extends React.Component <{}, ToDoAreaState> {
+  placeholder: string = 'Enter a description';
   constructor(props: any) {
     super(props);
     this.state = {
-      value: 'Enter a description of the To Do Item here.'
+      value: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -80,7 +82,7 @@ class ToDoArea extends React.Component <{}, ToDoAreaState> {
       <form onSubmit={this.handleSubmit}>
         <label>
           Description:
-          <textarea value={this.state.value} onChange={this.handleChange} />
+          <textarea value={this.state.value} onChange={this.handleChange} placeholder={this.placeholder}/>
         </label>
         <input type="submit" value="Submit" />
       </form>
