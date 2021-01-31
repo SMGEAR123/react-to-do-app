@@ -2,6 +2,8 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import { v4 as uuidv4 } from 'uuid';
+
 interface ToDoInputState {
   value: string;
 } // Defining type to avoid TypeScript errors when accessing State in component render functions. Explanation: https://stackoverflow.com/questions/47561848/property-value-does-not-exist-on-type-readonly
@@ -11,8 +13,10 @@ interface ToDoAreaState {
 };
 
 interface ToDoFormState {
-  name: string,
-  description: string,
+  item: {
+    name: string,
+    description: string,
+  }
 }
 
 interface ToDoListAppState {
@@ -89,31 +93,31 @@ class ToDoArea extends React.Component <{}, ToDoAreaState> {
   } 
 }
 
-class ToDoForm extends React.Component <{}, ToDoFormState> {
+class ToDoForm extends React.Component <any, ToDoFormState> {
   constructor(props: any) {
     super(props);
       this.state = {
-        name: '',
-        description: ''
+          item: {
+            name: '',
+            description: ''
+          }
       }
 
       this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(event: any) {
-    console.log("event", event);
     const inputValue = event.target[0].value;
     const areaValue = event.target[1].value;
-    console.log("inputEvent:", event.target[0])
-    console.log("inputEvent:", event.target[1])
-    console.log("inputValue", inputValue)
-    console.log("areaValue", areaValue)
-
     this.setState({
-      name: inputValue,
-      description: areaValue
+        item: {
+          name: inputValue,
+          description: areaValue
+        }
     }, () => {
-      console.log("state after event", this.state);
+      console.log("Form state after event", this.state);
+      const toDoItem = this.state.item
+      this.props.submitToDo(toDoItem);
     });
     event.preventDefault();
   }
@@ -165,15 +169,31 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
     }
   }
 
+  addToDoItem(toDoValues: any) {
+    /* Had to bind this method since state was showing as undefined. Issue was due to the scope of the call 
+    Reference: https://stackoverflow.com/questions/45998744/react-this-state-is-undefined 
+    */
+    const items = this.state.toDoItems.slice();
+    console.log("Items in state", items);
+    console.log("Submitted To Do Item:", toDoValues);
+
+    const toDoItem = {...toDoValues, id: uuidv4() }
+    items.push(toDoItem);
+    console.log("toDoItem", toDoItem);
+    console.log("after push", items);
+  }
+
   handleItemClick(val: any) {
     console.log("This from click event:", val.target.innerHTML);
   }
+  
 
   render() {
+    console.log("render state", this.state);
     return (
       <main>
       <Title />
-      <ToDoForm />
+      <ToDoForm submitToDo={this.addToDoItem.bind(this)} />
       <List items={this.state.toDoItems} clickMethod={this.handleItemClick} />
       </main>
     );
