@@ -93,7 +93,7 @@ const List = (props: any) => {
   return (
     <ul>
       {props.items.map((item: any, index: number) => {
-        return <li key={item.id}>{item.name}</li>
+        return <li key={item.id} onClick={props.clickMethod}>{item.name}</li>
       })}
     </ul>
   );
@@ -106,22 +106,26 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
     this.state = {
       toDoItems: [
         {
-          name: 'To Do Item Name',
+          name: 'First To Do Item Name',
           description: 'The first to do Item',
           id: "1a"
         },
         {
-          name: 'To Do Item Name',
+          name: 'Second To Do Item Name',
           description: 'The second to do Item',
           id: "1b"
         },
         {
-          name: 'To Do Item Name',
+          name: 'Third To Do Item Name',
           description: 'The third to do Item',
           id: "1c"
         }
       ]
     }
+  }
+
+  handleItemClick(val: any) {
+    console.log("This from click event:", val.target.innerHTML);
   }
 
   render() {
@@ -130,7 +134,7 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
       <Title />
       <ToDoInput />
       <ToDoArea />
-      <List items={this.state.toDoItems} />
+      <List items={this.state.toDoItems} clickMethod={this.handleItemClick} />
       </main>
     );
   }
