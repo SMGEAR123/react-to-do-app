@@ -2,10 +2,6 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-interface ToDoListAppState {
-  toDoItems: any[],
-}
-
 interface ToDoInputState {
   value: string;
 } // Defining type to avoid TypeScript errors when accessing State in component render functions. Explanation: https://stackoverflow.com/questions/47561848/property-value-does-not-exist-on-type-readonly
@@ -13,6 +9,15 @@ interface ToDoInputState {
 interface ToDoAreaState {
   value: string
 };
+
+interface ToDoFormState {
+  name: string,
+  description: string,
+}
+
+interface ToDoListAppState {
+  toDoItems: any[],
+}
 
 const Title = () => {
   return (
@@ -27,7 +32,7 @@ class ToDoInput extends React.Component <{}, ToDoInputState> {
     this.state = {value: ''};
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event: any) {
@@ -35,22 +40,19 @@ class ToDoInput extends React.Component <{}, ToDoInputState> {
     this.setState({value: changeValue});
   }
 
-  handleSubmit(event: any) {
-    event.preventDefault();
-    const submitValue = this.state.value;
-    console.log("Submitting Value:", submitValue);
-  }
+  // handleSubmit(event: any) {
+  //   event.preventDefault();
+  //   const submitValue = this.state.value;
+  //   console.log("Submitting Value:", submitValue);
+  // }
 
   render() {
     const stateValue: string = this.state.value;
     return (
-      <form onSubmit={this.handleSubmit}>
         <label>
           To Do Item:
           <input type="text" value={stateValue} onChange={this.handleChange} placeholder={this.placeholder} />
         </label>
-        <input type="submit" value="Submit" />
-      </form>
     );
   }
 }
@@ -63,7 +65,7 @@ class ToDoArea extends React.Component <{}, ToDoAreaState> {
       value: ''
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event: any) {
@@ -71,23 +73,60 @@ class ToDoArea extends React.Component <{}, ToDoAreaState> {
     this.setState({value: changeValue});
   }
 
-  handleSubmit(event: any) {
-    event.preventDefault();
-    const submitValue = this.state.value;
-    console.log("Submitting Value From TextArea:", submitValue);
-  }
+  // handleSubmit(event: any) {
+  //   event.preventDefault();
+  //   const submitValue = this.state.value;
+  //   console.log("Submitting Value From TextArea:", submitValue);
+  // }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
         <label>
           Description:
           <textarea value={this.state.value} onChange={this.handleChange} placeholder={this.placeholder}/>
         </label>
+    );
+  } 
+}
+
+class ToDoForm extends React.Component <{}, ToDoFormState> {
+  constructor(props: any) {
+    super(props);
+      this.state = {
+        name: '',
+        description: ''
+      }
+
+      this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(event: any) {
+    console.log("event", event);
+    const inputValue = event.target[0].value;
+    const areaValue = event.target[1].value;
+    console.log("inputEvent:", event.target[0])
+    console.log("inputEvent:", event.target[1])
+    console.log("inputValue", inputValue)
+    console.log("areaValue", areaValue)
+
+    this.setState({
+      name: inputValue,
+      description: areaValue
+    }, () => {
+      console.log("state after event", this.state);
+    });
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}> 
+        <ToDoInput />
+        <ToDoArea />
         <input type="submit" value="Submit" />
       </form>
     );
-  } 
+  }
 }
 
 const List = (props: any) => {
@@ -134,8 +173,7 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
     return (
       <main>
       <Title />
-      <ToDoInput />
-      <ToDoArea />
+      <ToDoForm />
       <List items={this.state.toDoItems} clickMethod={this.handleItemClick} />
       </main>
     );
