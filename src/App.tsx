@@ -174,13 +174,13 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
     Reference: https://stackoverflow.com/questions/45998744/react-this-state-is-undefined 
     */
     const items = this.state.toDoItems.slice();
-    console.log("Items in state", items);
-    console.log("Submitted To Do Item:", toDoValues);
 
-    const toDoItem = {...toDoValues, id: uuidv4() }
+    const toDoItem = {...toDoValues, id: uuidv4() }// Creates toDoItem with a unique ID that will be used as it's key.
     items.push(toDoItem);
-    console.log("toDoItem", toDoItem);
-    console.log("after push", items);
+
+    this.setState({
+      toDoItems: items
+    });// Update state with new items
   }
 
   handleItemClick(val: any) {
@@ -192,7 +192,6 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
     console.log("render state", this.state);
     return (
       <main>
-      <Title />
       <ToDoForm submitToDo={this.addToDoItem.bind(this)} />
       <List items={this.state.toDoItems} clickMethod={this.handleItemClick} />
       </main>
@@ -205,9 +204,7 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
+      <Title />
       <ToDoListApp />
 
     </div>
