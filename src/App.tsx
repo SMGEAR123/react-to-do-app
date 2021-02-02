@@ -3,6 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -48,10 +49,15 @@ class ToDoInput extends React.Component <{}, ToDoInputState> {
   render() {
     const stateValue: string = this.state.value;
     return (
-        <label>
-          To Do Item:
-          <input type="text" value={stateValue} onChange={this.handleChange} placeholder={this.placeholder} />
-        </label>
+      <Form.Group controlId="toDoForm.ControlInput1">
+        <Form.Label>To Do Item</Form.Label>
+        <Form.Control 
+          type="text" 
+          value={stateValue} 
+          onChange={this.handleChange} 
+          placeholder={this.placeholder} 
+        />
+      </Form.Group>
     );
   }
 }
@@ -73,10 +79,15 @@ class ToDoArea extends React.Component <{}, ToDoAreaState> {
 
   render() {
     return (
-        <label>
-          Description:
-          <textarea value={this.state.value} onChange={this.handleChange} placeholder={this.placeholder}/>
-        </label>
+      <Form.Group controlId="toDoForm.ControlTextArea1">
+        <Form.Label>Description:</Form.Label>
+        <Form.Control as="textarea" 
+          rows={3} 
+          value={this.state.value} 
+          onChange={this.handleChange} 
+          placeholder={this.placeholder}
+        />
+      </Form.Group>
     );
   } 
 }
@@ -112,11 +123,13 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}> 
+      <Form onSubmit={this.handleSubmit}> 
         <ToDoInput />
         <ToDoArea />
-        <input type="submit" value="Submit" />
-      </form>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
     );
   }
 }
@@ -198,11 +211,9 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
   }
 }
 
-
-
 function App() {
   return (
-    <div className="App">
+    <div className="App container">
       <Title />
       <ToDoListApp />
 
