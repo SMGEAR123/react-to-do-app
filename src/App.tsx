@@ -1,6 +1,8 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Form from 'react-bootstrap/Form'
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -36,19 +38,12 @@ class ToDoInput extends React.Component <{}, ToDoInputState> {
     this.state = {value: ''};
 
     this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event: any) {
     const changeValue = event.target.value;
     this.setState({value: changeValue});
   }
-
-  // handleSubmit(event: any) {
-  //   event.preventDefault();
-  //   const submitValue = this.state.value;
-  //   console.log("Submitting Value:", submitValue);
-  // }
 
   render() {
     const stateValue: string = this.state.value;
@@ -69,19 +64,12 @@ class ToDoArea extends React.Component <{}, ToDoAreaState> {
       value: ''
     };
     this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event: any) {
     const changeValue = event.target.value;
     this.setState({value: changeValue});
   }
-
-  // handleSubmit(event: any) {
-  //   event.preventDefault();
-  //   const submitValue = this.state.value;
-  //   console.log("Submitting Value From TextArea:", submitValue);
-  // }
 
   render() {
     return (
@@ -133,14 +121,25 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
   }
 }
 
+// const List = (props: any) => {
+//   console.log("list props", props);
+//   return (
+//     <ul>
+//       {props.items.map((item: any, index: number) => {
+//         return <li key={item.id} onClick={props.clickMethod}>{item.name}</li>
+//       })}
+//     </ul>
+//   );
+// }
+
 const List = (props: any) => {
   console.log("list props", props);
   return (
-    <ul>
+    <ListGroup>
       {props.items.map((item: any, index: number) => {
-        return <li key={item.id} onClick={props.clickMethod}>{item.name}</li>
+        return <ListGroup.Item key={item.id} onClick={props.clickMethod}>{item.name}</ListGroup.Item>
       })}
-    </ul>
+    </ListGroup>
   );
 }
 
