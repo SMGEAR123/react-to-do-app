@@ -134,21 +134,10 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
   }
 }
 
-// const List = (props: any) => {
-//   console.log("list props", props);
-//   return (
-//     <ul>
-//       {props.items.map((item: any, index: number) => {
-//         return <li key={item.id} onClick={props.clickMethod}>{item.name}</li>
-//       })}
-//     </ul>
-//   );
-// }
-
 const List = (props: any) => {
   console.log("list props", props);
   return (
-    <ListGroup>
+    <ListGroup className="mt-2">
       {props.items.map((item: any, index: number) => {
         return <ListGroup.Item key={item.id} onClick={props.clickMethod}>{item.name}</ListGroup.Item>
       })}
@@ -216,7 +205,6 @@ function App() {
     <div className="App container">
       <Title />
       <ToDoListApp />
-
     </div>
   );
 }
