@@ -149,7 +149,7 @@ const List = (props: any) => {
                 <p>{item.description}</p>
               </div>
               <div className="button-container">
-                <Button variant="danger">X</Button>
+                <Button variant="danger" onClick={props.handleDelete}>X</Button>
               </div>
             </div>
         </ListGroup.Item>);
@@ -200,6 +200,10 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
   handleItemClick(val: any) {
     console.log("This from click event:", val.target.innerHTML);
   }
+
+  deleteItem(event: any) {
+    console.log("deleting...", event);
+  }
   
 
   render() {
@@ -207,7 +211,7 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
     return (
       <main>
       <ToDoForm submitToDo={this.addToDoItem.bind(this)} />
-      <List items={this.state.toDoItems} clickMethod={this.handleItemClick} />
+      <List items={this.state.toDoItems} clickMethod={this.handleItemClick} handleDelete={this.deleteItem}/>
       </main>
     );
   }
