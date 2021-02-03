@@ -143,8 +143,15 @@ const List = (props: any) => {
         <ListGroup.Item 
           key={item.id} 
           onClick={props.clickMethod}>
-            <p className="item-name">{item.name}</p>
-            <p>{item.description}</p>
+            <div className="flex-container">
+              <div className="list-text">
+                <p className="item-name">{item.name}</p>
+                <p>{item.description}</p>
+              </div>
+              <div className="button-container">
+                <Button variant="danger">X</Button>
+              </div>
+            </div>
         </ListGroup.Item>);
       })}
     </ListGroup>

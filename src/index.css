@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+.list-group-item+.list-group-item {
+  border-top-width: thin;
+}
+
 div.list-group-item > p {
   margin-bottom: 2px;
 }
@@ -19,3 +23,10 @@ div.list-group-item > p {
 p.item-name {
   font-weight: bold;
 }
+
+div.flex-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
