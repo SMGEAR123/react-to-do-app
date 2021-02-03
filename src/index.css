@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+div.list-group-item > p {
+  margin-bottom: 2px;
+}
+
+p.item-name {
+  font-weight: bold;
+}

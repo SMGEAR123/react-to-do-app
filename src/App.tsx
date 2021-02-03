@@ -139,7 +139,13 @@ const List = (props: any) => {
   return (
     <ListGroup className="mt-2">
       {props.items.map((item: any, index: number) => {
-        return <ListGroup.Item key={item.id} onClick={props.clickMethod}>{item.name}</ListGroup.Item>
+        return (
+        <ListGroup.Item 
+          key={item.id} 
+          onClick={props.clickMethod}>
+            <p className="item-name">{item.name}</p>
+            <p>{item.description}</p>
+        </ListGroup.Item>);
       })}
     </ListGroup>
   );
