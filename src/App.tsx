@@ -56,6 +56,7 @@ class ToDoInput extends React.Component <{}, ToDoInputState> {
           value={stateValue} 
           onChange={this.handleChange} 
           placeholder={this.placeholder} 
+          required
         />
       </Form.Group>
     );
@@ -114,7 +115,6 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
           description: areaValue
         }
     }, () => {
-      console.log("Form state after event", this.state);
       const toDoItem = this.state.item
       this.props.submitToDo(toDoItem);
     });
@@ -202,8 +202,12 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
 
   deleteItem(id: any) {
     console.log("deleting item with id: ", id);
+    this.setState({
+      toDoItems: this.state.toDoItems.filter(item => item.id !== id)
+    }, () => {
+      console.log("Remaining Items after delete", this.state.toDoItems);
+    });
   }
-  
 
   render() {
     console.log("render state", this.state);
