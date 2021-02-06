@@ -134,28 +134,41 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
   }
 }
 
-const List = (props: any) => {
-  console.log("list props", props);
-  return (
-    <ListGroup className="mt-2">
-      {props.items.map((item: any, index: number) => {
-        return (
-        <ListGroup.Item 
-          key={item.id} 
-          onClick={props.clickMethod}>
-            <div className="flex-container">
-              <div className="list-text">
-                <p className="item-name">{item.name}</p>
-                <p>{item.description}</p>
+class List extends React.Component <any> {
+
+  _handleDelete(id: any) {
+    // This post does a good job of explaining how you can bind values for this type of behavior. https://stackoverflow.com/questions/43230622/reactjs-how-to-delete-item-from-list
+    console.log("props", this.props)
+    this.props.handleDelete(id);
+  }
+
+  render() {
+    return (
+      <ListGroup className="mt-2">
+        {this.props.items.map((item: any, index: number) => {
+          return (
+          <ListGroup.Item 
+            key={item.id} 
+            onClick={this.props.clickMethod}>
+              <div className="flex-container">
+                <div className="list-text">
+                  <p className="item-name">{item.name}</p>
+                  <p>{item.description}</p>
+                </div>
+                <div className="button-container">
+                  <Button 
+                  variant="danger" 
+                  onClick={this._handleDelete.bind(this, item.id)}
+                  >
+                    X
+                  </Button>
+                </div>
               </div>
-              <div className="button-container">
-                <Button variant="danger" onClick={props.handleDelete}>X</Button>
-              </div>
-            </div>
-        </ListGroup.Item>);
-      })}
-    </ListGroup>
-  );
+          </ListGroup.Item>);
+        })}
+      </ListGroup>
+    );
+  }
 }
 
 class ToDoListApp extends React.Component <{}, ToDoListAppState> {
@@ -198,11 +211,11 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
   }
 
   handleItemClick(val: any) {
-    console.log("This from click event:", val.target.innerHTML);
+    console.log("This from click event:", val);
   }
 
-  deleteItem(event: any) {
-    console.log("deleting...", event);
+  deleteItem(el: any) {
+    console.log("deleting...", el);
   }
   
 
@@ -211,7 +224,11 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
     return (
       <main>
       <ToDoForm submitToDo={this.addToDoItem.bind(this)} />
-      <List items={this.state.toDoItems} clickMethod={this.handleItemClick} handleDelete={this.deleteItem}/>
+      <List 
+        items={this.state.toDoItems} 
+        clickMethod={this.handleItemClick} 
+        handleDelete={this.deleteItem.bind(this)}
+      />
       </main>
     );
   }
