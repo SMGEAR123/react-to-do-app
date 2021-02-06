@@ -134,22 +134,13 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
   }
 }
 
-class List extends React.Component <any> {
+const List = (props: any) => {
 
-  _handleDelete(id: any) {
-    // This post does a good job of explaining how you can bind values for this type of behavior. https://stackoverflow.com/questions/43230622/reactjs-how-to-delete-item-from-list
-    console.log("props", this.props)
-    this.props.handleDelete(id);
-  }
-
-  render() {
     return (
       <ListGroup className="mt-2">
-        {this.props.items.map((item: any, index: number) => {
+        {props.items.map((item: any, index: number) => {
           return (
-          <ListGroup.Item 
-            key={item.id} 
-            onClick={this.props.clickMethod}>
+          <ListGroup.Item key={item.id}>
               <div className="flex-container">
                 <div className="list-text">
                   <p className="item-name">{item.name}</p>
@@ -158,7 +149,7 @@ class List extends React.Component <any> {
                 <div className="button-container">
                   <Button 
                   variant="danger" 
-                  onClick={this._handleDelete.bind(this, item.id)}
+                  onClick={props.handleDelete.bind(this, item.id)}
                   >
                     X
                   </Button>
@@ -168,7 +159,6 @@ class List extends React.Component <any> {
         })}
       </ListGroup>
     );
-  }
 }
 
 class ToDoListApp extends React.Component <{}, ToDoListAppState> {
@@ -210,12 +200,8 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
     });// Update state with new items
   }
 
-  handleItemClick(val: any) {
-    console.log("This from click event:", val);
-  }
-
-  deleteItem(el: any) {
-    console.log("deleting...", el);
+  deleteItem(id: any) {
+    console.log("deleting item with id: ", id);
   }
   
 
@@ -225,8 +211,7 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
       <main>
       <ToDoForm submitToDo={this.addToDoItem.bind(this)} />
       <List 
-        items={this.state.toDoItems} 
-        clickMethod={this.handleItemClick} 
+        items={this.state.toDoItems}
         handleDelete={this.deleteItem.bind(this)}
       />
       </main>
