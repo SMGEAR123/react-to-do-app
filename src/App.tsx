@@ -32,7 +32,7 @@ const Title = () => {
   );
 }
 
-class ToDoInput extends React.Component <{}, ToDoInputState> {
+class ToDoInput extends React.Component <any, ToDoInputState> {
   placeholder: string = "Enter a name"
   constructor(props: any) {
     super(props);
@@ -63,7 +63,7 @@ class ToDoInput extends React.Component <{}, ToDoInputState> {
   }
 }
 
-class ToDoArea extends React.Component <{}, ToDoAreaState> {
+class ToDoArea extends React.Component <any, ToDoAreaState> {
   placeholder: string = 'Enter a description';
   constructor(props: any) {
     super(props);
