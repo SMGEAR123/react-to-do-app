@@ -135,8 +135,9 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
         name: val,
         description: this.state.item.description
       }
+    }, () => {
+      console.log("state after input change", this.state);
     });
-    console.log("state after input change", this.state)
   }
 
   handleAreaChange(val: any) {
@@ -146,8 +147,9 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
         name: this.state.item.name,
         description: val
       }
+    }, () => {
+      console.log("state after area change", this.state);
     });
-    console.log("state after area change", this.state)
   }
 
   render() {
