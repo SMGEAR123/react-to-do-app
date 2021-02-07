@@ -28,7 +28,7 @@ interface ToDoListAppState {
 
 const Title = () => {
   return (
-    <h1>To Do List Application</h1>
+    <h1>To Do List App</h1>
   );
 }
 
