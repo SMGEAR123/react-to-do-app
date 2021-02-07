@@ -36,24 +36,24 @@ class ToDoInput extends React.Component <any, ToDoInputState> {
   placeholder: string = "Enter a name"
   constructor(props: any) {
     super(props);
-    this.state = {value: ''};
-
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event: any) {
+    // console.log("event", event)
     const changeValue = event.target.value;
-    this.setState({value: changeValue});
+    // this.setState({value: changeValue});
+    this.props._handleChange(changeValue);
   }
 
   render() {
-    const stateValue: string = this.state.value;
+    // const stateValue: string = this.state.value;
     return (
       <Form.Group controlId="toDoForm.ControlInput1">
         <Form.Label>To Do Item</Form.Label>
         <Form.Control 
           type="text" 
-          value={stateValue} 
+          value={this.props.value} 
           onChange={this.handleChange} 
           placeholder={this.placeholder} 
           required
@@ -67,15 +67,17 @@ class ToDoArea extends React.Component <any, ToDoAreaState> {
   placeholder: string = 'Enter a description';
   constructor(props: any) {
     super(props);
-    this.state = {
-      value: ''
-    };
+    // this.state = {
+    //   value: ''
+    // };
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event: any) {
     const changeValue = event.target.value;
-    this.setState({value: changeValue});
+    console.log("area props", this);
+    this.props._handleChange(changeValue);
+    // this.setState({value: changeValue});
   }
 
   render() {
@@ -84,7 +86,7 @@ class ToDoArea extends React.Component <any, ToDoAreaState> {
         <Form.Label>Description:</Form.Label>
         <Form.Control as="textarea" 
           rows={3} 
-          value={this.state.value} 
+          value={this.props.value} 
           onChange={this.handleChange} 
           placeholder={this.placeholder}
         />
@@ -109,23 +111,50 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
   handleSubmit(event: any) {
     const inputValue = event.target[0].value;
     const areaValue = event.target[1].value;
+    const toDoItem = {
+        name: inputValue,
+        description: areaValue
+      }// Taking values from form input and textArea to create toDoItem 
+    this.props.submitToDo(toDoItem);
+
     this.setState({
-        item: {
-          name: inputValue,
-          description: areaValue
-        }
+      item: {
+        name: '',
+        description: ''
+      }
     }, () => {
-      const toDoItem = this.state.item
-      this.props.submitToDo(toDoItem);
+      console.log("Form state reset", this.state)
     });
     event.preventDefault();
+  }
+  
+  handleInputChange(val: any) {
+    console.log("Input Change Value", val);
+    this.setState({
+      item: {
+        name: val,
+        description: this.state.item.description
+      }
+    });
+    console.log("state after input change", this.state)
+  }
+
+  handleAreaChange(val: any) {
+    console.log("Area Change Value", val)
+    this.setState({
+      item: {
+        name: this.state.item.name,
+        description: val
+      }
+    });
+    console.log("state after area change", this.state)
   }
 
   render() {
     return (
       <Form onSubmit={this.handleSubmit}> 
-        <ToDoInput />
-        <ToDoArea />
+        <ToDoInput value={this.state.item.name} _handleChange={this.handleInputChange.bind(this)} />
+        <ToDoArea value={this.state.item.description} _handleChange={this.handleAreaChange.bind(this)}/>
         <Button variant="primary" type="submit">
           Submit
         </Button>
@@ -135,7 +164,6 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
 }
 
 const List = (props: any) => {
-
     return (
       <ListGroup className="mt-2">
         {props.items.map((item: any, index: number) => {
