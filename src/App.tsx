@@ -169,6 +169,34 @@ const List = (props: any) => {
     return (
       <ListGroup className="mt-2">
         {props.items.map((item: any, index: number) => {
+          if(item.edit) {
+          return (
+          <ListGroup.Item key={item.id}>
+              <div className="flex-container">
+                <p>Edit Mode</p>
+                <div className="list-text">
+                  <p className="item-name">{item.name}</p>
+                  <p>{item.description}</p>
+                </div>
+                <div className="button-container">
+                  <Button 
+                  variant="danger" 
+                  onClick={props.handleDelete.bind(this, item.id)}
+                  >
+                    X
+                  </Button>
+                  <Button 
+                  variant="warning" 
+                  onClick={props.handleEdit.bind(this, item.id)}
+                  >
+                    Edit
+                  </Button>
+                </div>
+              </div>
+          </ListGroup.Item>
+          );
+        }
+        else {
           return (
           <ListGroup.Item key={item.id}>
               <div className="flex-container">
@@ -183,9 +211,17 @@ const List = (props: any) => {
                   >
                     X
                   </Button>
+                  <Button 
+                  variant="warning" 
+                  onClick={props.handleEdit.bind(this, item.id)}
+                  >
+                    Edit
+                  </Button>
                 </div>
               </div>
-          </ListGroup.Item>);
+          </ListGroup.Item>
+          );
+        }
         })}
       </ListGroup>
     );
@@ -200,17 +236,20 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
         {
           name: 'First To Do Item Name',
           description: 'The first to do Item',
-          id: "1a"
+          id: "1a",
+          edit: false
         },
         {
           name: 'Second To Do Item Name',
           description: 'The second to do Item',
-          id: "1b"
+          id: "1b",
+          edit: false
         },
         {
           name: 'Third To Do Item Name',
           description: 'The third to do Item',
-          id: "1c"
+          id: "1c",
+          edit: false
         }
       ]
     }
@@ -222,7 +261,7 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
     */
     const items = this.state.toDoItems.slice();
 
-    const toDoItem = {...toDoValues, id: uuidv4() }// Creates toDoItem with a unique ID that will be used as it's key.
+    const toDoItem = {...toDoValues, id: uuidv4(), edit: false }// Creates toDoItem with a unique ID that will be used as it's key.
     items.push(toDoItem);
 
     this.setState({
@@ -239,6 +278,27 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
     });
   }
 
+  editItem(id: any) {
+    console.log("editing item: ", id);
+    const editableItems = this.state.toDoItems.slice();
+    
+    editableItems.map(item => {
+      if(item.id === id) {
+        item.edit = !item.edit;
+      }
+      return editableItems
+    });
+
+    console.log("editableItems", editableItems);
+    console.log("items in state", this.state.toDoItems);
+
+    this.setState({
+      toDoItems: editableItems
+    }, () => {
+      console.log("state", this.state);
+    });
+  }
+
   render() {
     console.log("render state", this.state);
     return (
@@ -247,6 +307,7 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
       <List 
         items={this.state.toDoItems}
         handleDelete={this.deleteItem.bind(this)}
+        handleEdit={this.editItem.bind(this)}
       />
       </main>
     );
