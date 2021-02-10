@@ -172,27 +172,18 @@ const List = (props: any) => {
           if(item.edit) {
           return (
           <ListGroup.Item key={item.id}>
-              <div className="flex-container">
-                <p>Edit Mode</p>
-                <div className="list-text">
-                  <p className="item-name">{item.name}</p>
-                  <p>{item.description}</p>
-                </div>
-                <div className="button-container">
-                  <Button 
-                  variant="danger" 
-                  onClick={props.handleDelete.bind(this, item.id)}
-                  >
-                    X
-                  </Button>
-                  <Button 
-                  variant="warning" 
-                  onClick={props.handleEdit.bind(this, item.id)}
-                  >
-                    Edit
-                  </Button>
-                </div>
-              </div>
+            <Form>
+              <ToDoInput />
+              <ToDoArea />
+              <Button variant="primary">
+                Save
+              </Button>
+              <Button variant="warning"
+                onClick={props._toggleEdit.bind(this, item.id)}
+              >
+                Cancel
+              </Button>
+            </Form>
           </ListGroup.Item>
           );
         }
@@ -213,7 +204,7 @@ const List = (props: any) => {
                   </Button>
                   <Button 
                   variant="warning" 
-                  onClick={props.handleEdit.bind(this, item.id)}
+                  onClick={props._toggleEdit.bind(this, item.id)}
                   >
                     Edit
                   </Button>
@@ -278,7 +269,7 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
     });
   }
 
-  editItem(id: any) {
+  toggleEdit(id: any) {
     console.log("editing item: ", id);
     const editableItems = this.state.toDoItems.slice();
     
@@ -307,7 +298,7 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
       <List 
         items={this.state.toDoItems}
         handleDelete={this.deleteItem.bind(this)}
-        handleEdit={this.editItem.bind(this)}
+        _toggleEdit={this.toggleEdit.bind(this)}
       />
       </main>
     );
