@@ -165,10 +165,12 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
 }
 
 const ItemForm = (props: any) => {
+  // Variables below set and manage state. See docs: https://reactjs.org/docs/hooks-state.html
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
   useEffect(() => {
+    // Using Effect hook to listen in on changes to these properties in state.
     console.log("updated Name", name);
     console.log("updated Description", description);
   });
