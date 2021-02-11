@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -168,12 +168,17 @@ const ItemForm = (props: any) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
+  useEffect(() => {
+    console.log("updated Name", name);
+    console.log("updated Description", description);
+  });
+
   return (
     <Form>
               <ToDoInput 
                 _handleChange={(val: any) => setName(val)}
               />
-
+              
               <ToDoArea 
                 _handleChange={(val: any) => setDescription(val)}
               />
