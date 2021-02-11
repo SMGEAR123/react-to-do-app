@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -75,7 +75,6 @@ class ToDoArea extends React.Component <any, ToDoAreaState> {
 
   handleChange(event: any) {
     const changeValue = event.target.value;
-    console.log("area props", this);
     this.props._handleChange(changeValue);
     // this.setState({value: changeValue});
   }
@@ -165,6 +164,37 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
   }
 }
 
+const ItemForm = (props: any) => {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+
+  return (
+    <Form>
+              <ToDoInput 
+                _handleChange={(val: any) => setName(val)}
+              />
+
+              <ToDoArea 
+                _handleChange={(val: any) => setDescription(val)}
+              />
+              
+              <Button variant="primary"
+                onClick={() => {
+                  console.log("Clicking save");
+                  props._handleEdit.bind(this)
+                }}  
+              >
+                Save
+              </Button>
+              <Button variant="warning"
+                onClick={props._toggleEdit.bind(this)}
+              >
+                Cancel
+              </Button>
+        </Form>
+  );
+}
+
 const List = (props: any) => {
     return (
       <ListGroup className="mt-2">
@@ -172,18 +202,10 @@ const List = (props: any) => {
           if(item.edit) {
           return (
           <ListGroup.Item key={item.id}>
-            <Form>
-              <ToDoInput />
-              <ToDoArea />
-              <Button variant="primary">
-                Save
-              </Button>
-              <Button variant="warning"
-                onClick={props._toggleEdit.bind(this, item.id)}
-              >
-                Cancel
-              </Button>
-            </Form>
+            <ItemForm 
+              _toggleEdit={props._toggleEdit} 
+              _handleEdit={props._handleEdit}
+              />
           </ListGroup.Item>
           );
         }
@@ -290,8 +312,23 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
     });
   }
 
+  handleEdit(id: any, updatedItem: any) {
+    // const toDoItemsCopy = this.state.toDoItems.slice();// Creating a copy of the state.
+    console.log("handleEdit ID:", id);
+    console.log("updated item:", updatedItem);
+
+    // finds the item from what's in the copied version of state and updates the value
+    // toDoItemsCopy.map((item) => {
+    //   if(item.id === id) {
+    //    item = updatedItem;
+    //    return item;
+    //   } else {
+    //     return;
+    //   }
+    // });
+  }
+
   render() {
-    console.log("render state", this.state);
     return (
       <main>
       <ToDoForm submitToDo={this.addToDoItem.bind(this)} />
@@ -299,6 +336,7 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
         items={this.state.toDoItems}
         handleDelete={this.deleteItem.bind(this)}
         _toggleEdit={this.toggleEdit.bind(this)}
+        _handleEdit={this.handleEdit.bind(this)}
       />
       </main>
     );
