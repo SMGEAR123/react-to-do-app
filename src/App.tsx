@@ -291,7 +291,7 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
   deleteItem(id: any) {
     console.log("deleting item with id: ", id);
     this.setState({
-      toDoItems: this.state.toDoItems.filter(item => item.id !== id)
+      toDoItems: this.state.toDoItems.slice().filter(item => item.id !== id)
     }, () => {
       console.log("Remaining Items after delete", this.state.toDoItems);
     });
@@ -325,8 +325,7 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
     console.log("New Item Text", newItemText);
 
     // Finds the item from what's in the copied version of state and updates the value
-    const toDoItems = this.state.toDoItems
-    const toDoItemsCopy = toDoItems.slice();
+    const toDoItemsCopy = this.state.toDoItems.slice();
 
     const newToDoItems = toDoItemsCopy.map((item) => {
       if(item.id === id) {
@@ -338,16 +337,16 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
       }
     });
 
-    console.log("new To Do Items", newToDoItems)
     this.toggleEdit(id);
   }
 
   render() {
+    const toDoItems = this.state.toDoItems.slice();
     return (
       <main>
       <ToDoForm submitToDo={this.addToDoItem.bind(this)} />
       <List 
-        items={this.state.toDoItems}
+        items={toDoItems}
         handleDelete={this.deleteItem.bind(this)}
         _toggleEdit={this.toggleEdit.bind(this)}
         _handleEdit={this.handleEdit.bind(this)}
