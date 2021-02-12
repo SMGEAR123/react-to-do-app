@@ -168,7 +168,7 @@ const ItemForm = (props: any) => {
   // Variables below set and manage state. See docs: https://reactjs.org/docs/hooks-state.html
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const id = useState(props._currentId); // Setting ID based on value defined in the _currentId property.
+  const currentId = props._currentId;
 
   useEffect(() => {
     // Using Effect hook to listen in on changes to these properties in state.
@@ -181,7 +181,7 @@ const ItemForm = (props: any) => {
       console.log("Clicking save");
       console.log("name: ", name);
       console.log("description: ", description);
-      console.log("Form for Item: ", id);
+      props._handleEdit(currentId, name, description);
       e.preventDefault();
     }} >
               <ToDoInput 
@@ -322,10 +322,15 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
     });
   }
 
-  handleEdit(id: any, updatedItem: any) {
+  handleEdit(id: string, updatedName: string, updatedDescription: string) {
     // const toDoItemsCopy = this.state.toDoItems.slice();// Creating a copy of the state.
     console.log("handleEdit ID:", id);
-    console.log("updated item:", updatedItem);
+    const newItemText = {
+      name: updatedName,
+      description: updatedDescription
+    };
+
+    console.log("New Item Text", newItemText);
 
     // finds the item from what's in the copied version of state and updates the value
     // toDoItemsCopy.map((item) => {
