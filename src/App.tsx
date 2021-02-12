@@ -316,7 +316,6 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
   }
 
   handleEdit(id: string, updatedName: string, updatedDescription: string) {
-    // const toDoItemsCopy = this.state.toDoItems.slice();// Creating a copy of the state.
     console.log("handleEdit ID:", id);
     const newItemText = {
       name: updatedName,
@@ -325,15 +324,22 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
 
     console.log("New Item Text", newItemText);
 
-    // finds the item from what's in the copied version of state and updates the value
-    // toDoItemsCopy.map((item) => {
-    //   if(item.id === id) {
-    //    item = updatedItem;
-    //    return item;
-    //   } else {
-    //     return;
-    //   }
-    // });
+    // Finds the item from what's in the copied version of state and updates the value
+    const toDoItems = this.state.toDoItems
+    const toDoItemsCopy = toDoItems.slice();
+
+    const newToDoItems = toDoItemsCopy.map((item) => {
+      if(item.id === id) {
+       item.name = newItemText.name;
+       item.description = newItemText.description
+       return item;
+      } else {
+        return toDoItemsCopy;
+      }
+    });
+
+    console.log("new To Do Items", newToDoItems)
+    this.toggleEdit(id);
   }
 
   render() {
