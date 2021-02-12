@@ -210,7 +210,7 @@ const List = (props: any) => {
           return (
           <ListGroup.Item key={item.id}>
             <ItemForm 
-              _toggleEdit={props._toggleEdit} 
+              _toggleEdit={props._toggleEdit.bind(this, item.id)} 
               _handleEdit={props._handleEdit}
               />
           </ListGroup.Item>
