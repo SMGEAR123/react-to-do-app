@@ -40,7 +40,6 @@ class ToDoInput extends React.Component <any, ToDoInputState> {
   }
 
   handleChange(event: any) {
-    // console.log("event", event)
     const changeValue = event.target.value;
     // this.setState({value: changeValue});
     this.props._handleChange(changeValue);
@@ -135,7 +134,7 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
         description: this.state.item.description
       }
     }, () => {
-      console.log("state after input change", this.state);
+      // console.log("state after input change", this.state);
     });
   }
 
@@ -147,7 +146,7 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
         description: val
       }
     }, () => {
-      console.log("state after area change", this.state);
+      // console.log("state after area change", this.state);
     });
   }
 
@@ -178,9 +177,6 @@ const ItemForm = (props: any) => {
 
   return (
     <Form onSubmit={(e: any) => {
-      console.log("Clicking save");
-      console.log("name: ", name);
-      console.log("description: ", description);
       props._handleEdit(currentId, name, description);
       e.preventDefault();
     }} >
@@ -302,7 +298,7 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
   }
 
   toggleEdit(id: any) {
-    console.log("editing item: ", id);
+    console.log("Toggling edit mode for item: ", id);
     const editableItems = this.state.toDoItems.slice();
     
     editableItems.map(item => {
@@ -311,9 +307,6 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
       }
       return editableItems
     });
-
-    console.log("editableItems", editableItems);
-    console.log("items in state", this.state.toDoItems);
 
     this.setState({
       toDoItems: editableItems
