@@ -168,6 +168,7 @@ const ItemForm = (props: any) => {
   // Variables below set and manage state. See docs: https://reactjs.org/docs/hooks-state.html
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const id = useState(props._currentId); // Setting ID based on value defined in the _currentId property.
 
   useEffect(() => {
     // Using Effect hook to listen in on changes to these properties in state.
@@ -176,7 +177,13 @@ const ItemForm = (props: any) => {
   });
 
   return (
-    <Form>
+    <Form onSubmit={(e: any) => {
+      console.log("Clicking save");
+      console.log("name: ", name);
+      console.log("description: ", description);
+      console.log("Form for Item: ", id);
+      e.preventDefault();
+    }} >
               <ToDoInput 
                 _handleChange={(val: any) => setName(val)}
               />
@@ -185,12 +192,7 @@ const ItemForm = (props: any) => {
                 _handleChange={(val: any) => setDescription(val)}
               />
               
-              <Button variant="primary"
-                onClick={() => {
-                  console.log("Clicking save");
-                  props._handleEdit.bind(this)
-                }}  
-              >
+              <Button variant="primary" type="submit">
                 Save
               </Button>
               <Button variant="warning"
@@ -210,6 +212,7 @@ const List = (props: any) => {
           return (
           <ListGroup.Item key={item.id}>
             <ItemForm 
+              _currentId={item.id}
               _toggleEdit={props._toggleEdit.bind(this, item.id)} 
               _handleEdit={props._handleEdit}
               />
