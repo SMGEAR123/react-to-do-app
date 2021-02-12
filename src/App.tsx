@@ -327,7 +327,7 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
     // Finds the item from what's in the copied version of state and updates the value
     const toDoItemsCopy = this.state.toDoItems.slice();
 
-    const newToDoItems = toDoItemsCopy.map((item) => {
+    toDoItemsCopy.map((item) => {
       if(item.id === id) {
        item.name = newItemText.name;
        item.description = newItemText.description
