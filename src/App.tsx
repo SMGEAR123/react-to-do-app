@@ -37,22 +37,29 @@ class ToDoInput extends React.Component <any, ToDoInputState> {
   constructor(props: any) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      value: (this.props?.value) ? this.props.value : ""
+    }
   }
 
   handleChange(event: any) {
     const changeValue = event.target.value;
-    // this.setState({value: changeValue});
+    this.setState({value: changeValue},
+      () => {
+        console.log("input state", this.state)
+      });
     this.props._handleChange(changeValue);
   }
 
   render() {
     // const stateValue: string = this.state.value;
+    console.log("Input default state", this.state);
     return (
       <Form.Group controlId="toDoForm.ControlInput1">
         <Form.Label>To Do Item</Form.Label>
         <Form.Control 
           type="text" 
-          value={this.props.value} 
+          value={this.state.value}
           onChange={this.handleChange} 
           placeholder={this.placeholder} 
           required
@@ -66,25 +73,30 @@ class ToDoArea extends React.Component <any, ToDoAreaState> {
   placeholder: string = 'Enter a description';
   constructor(props: any) {
     super(props);
-    // this.state = {
-    //   value: ''
-    // };
+    this.state = {
+      value: (this.props?.value) ? this.props.value : ""
+    }
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event: any) {
     const changeValue = event.target.value;
+    this.setState({
+      value: changeValue
+    }, () => {
+      console.log("area state", this.state);
+    });
     this.props._handleChange(changeValue);
-    // this.setState({value: changeValue});
   }
 
   render() {
+    console.log("Input default state", this.state);
     return (
       <Form.Group controlId="toDoForm.ControlTextArea1">
         <Form.Label>Description:</Form.Label>
         <Form.Control as="textarea" 
           rows={3} 
-          value={this.props.value} 
+          value={this.state.value} 
           onChange={this.handleChange} 
           placeholder={this.placeholder}
         />
@@ -153,8 +165,8 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
   render() {
     return (
       <Form onSubmit={this.handleSubmit}> 
-        <ToDoInput value={this.state.item.name} _handleChange={this.handleInputChange.bind(this)} />
-        <ToDoArea value={this.state.item.description} _handleChange={this.handleAreaChange.bind(this)}/>
+        <ToDoInput _handleChange={this.handleInputChange.bind(this)} />
+        <ToDoArea _handleChange={this.handleAreaChange.bind(this)}/>
         <Button variant="primary" type="submit">
           Submit
         </Button>
@@ -165,9 +177,11 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
 
 const ItemForm = (props: any) => {
   // Variables below set and manage state. See docs: https://reactjs.org/docs/hooks-state.html
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState(props.name);
+  const [description, setDescription] = useState(props.description);
   const currentId = props._currentId;
+  console.log("name", name);
+  console.log("description", description)
 
   useEffect(() => {
     // Using Effect hook to listen in on changes to these properties in state.
@@ -182,10 +196,12 @@ const ItemForm = (props: any) => {
     }} >
               <ToDoInput 
                 _handleChange={(val: any) => setName(val)}
+                value={name}
               />
               
               <ToDoArea 
                 _handleChange={(val: any) => setDescription(val)}
+                value={description}
               />
               
               <Button variant="primary" type="submit">
@@ -211,6 +227,8 @@ const List = (props: any) => {
               _currentId={item.id}
               _toggleEdit={props._toggleEdit.bind(this, item.id)} 
               _handleEdit={props._handleEdit}
+              name={item.name}
+              description={item.description}
               />
           </ListGroup.Item>
           );
