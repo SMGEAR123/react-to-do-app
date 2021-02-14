@@ -44,19 +44,11 @@ class ToDoInput extends React.Component <any, ToDoInputState> {
 
   handleChange(event: any) {
     const changeValue = event.target.value;
-
- 
-    this.setState({value: changeValue},
-      () => {
-        console.log("input state", this.state)
-      });
-    
+    this.setState({value: changeValue});
     this.props._handleChange(changeValue);
   }
 
-  render() {
-    // const stateValue: string = this.state.value;
-    
+  render() {   
     return (
       <Form.Group controlId="toDoForm.ControlInput1">
         <Form.Label>To Do Item</Form.Label>
@@ -86,8 +78,6 @@ class ToDoArea extends React.Component <any, ToDoAreaState> {
     const changeValue = event.target.value;
     this.setState({
       value: changeValue
-    }, () => {
-      console.log("area state", this.state);
     });
     this.props._handleChange(changeValue);
   }
@@ -117,7 +107,7 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
             description: ''
           }
       }
-      this.handleSubmit = this.handleSubmit.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this); // Binds the handleSubmit method to this instance of the form.
   }
 
   handleSubmit(event: any) {
@@ -134,34 +124,26 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
         name: '',
         description: ''
       }
-    }, () => {
-      console.log("Form state reset", this.state)
     });
-    event.preventDefault();
+    event.preventDefault(); // Prevents form from resetting
   }
   
   handleInputChange(val: any) {
-    console.log("Input Change Value", val);
     this.setState({
       item: {
         name: val,
         description: this.state.item.description
       }
-    }, () => {
-      // console.log("state after input change", this.state);
-    });
+    }); // Sets the name of the item in state while keeping the description unchanged.
   }
 
   handleAreaChange(val: any) {
-    console.log("Area Change Value", val)
     this.setState({
       item: {
         name: this.state.item.name,
         description: val
       }
-    }, () => {
-      // console.log("state after area change", this.state);
-    });
+    }); // Sets the description of the item in state while keeping the name unchanged.
   }
 
   render() {
@@ -188,8 +170,6 @@ const ItemForm = (props: any) => {
   const [name, setName] = useState(props.name);
   const [description, setDescription] = useState(props.description);
   const currentId = props._currentId;
-  console.log("name", name);
-  console.log("description", description);
 
   useEffect(() => {
     // Using Effect hook to listen in on changes to these properties in state.
@@ -315,16 +295,12 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
   }
 
   deleteItem(id: any) {
-    console.log("deleting item with id: ", id);
     this.setState({
       toDoItems: this.state.toDoItems.slice().filter(item => item.id !== id)
-    }, () => {
-      console.log("Remaining Items after delete", this.state.toDoItems);
     });
   }
 
   toggleEdit(id: any) {
-    console.log("Toggling edit mode for item: ", id);
     const editableItems = this.state.toDoItems.slice();
     
     editableItems.map(item => {
@@ -336,19 +312,14 @@ class ToDoListApp extends React.Component <{}, ToDoListAppState> {
 
     this.setState({
       toDoItems: editableItems
-    }, () => {
-      console.log("state", this.state);
-    });
+    });// Sets state of toDoItems with toggled boolean
   }
 
   handleEdit(id: string, updatedName: string, updatedDescription: string) {
-    console.log("handleEdit ID:", id);
     const newItemText = {
       name: updatedName,
       description: updatedDescription
     };
-
-    console.log("New Item Text", newItemText);
 
     // Finds the item from what's in the copied version of state and updates the value
     const toDoItemsCopy = this.state.toDoItems.slice();
