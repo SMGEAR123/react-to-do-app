@@ -45,12 +45,12 @@ class ToDoInput extends React.Component <any, ToDoInputState> {
   handleChange(event: any) {
     const changeValue = event.target.value;
 
-    if(!this.props._isToDoForm) {
+ 
     this.setState({value: changeValue},
       () => {
         console.log("input state", this.state)
       });
-    }
+    
     this.props._handleChange(changeValue);
   }
 
@@ -109,7 +109,6 @@ class ToDoArea extends React.Component <any, ToDoAreaState> {
 
 class ToDoForm extends React.Component <any, ToDoFormState> {
 
-  isToDoForm: boolean;
   constructor(props: any) {
     super(props);
       this.state = {
@@ -118,7 +117,6 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
             description: ''
           }
       }
-      this.isToDoForm = true;
       this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -172,12 +170,10 @@ class ToDoForm extends React.Component <any, ToDoFormState> {
         <ToDoInput 
         value={this.state.item.name}
         _handleChange={this.handleInputChange.bind(this)}
-        _isToDoForm={this.isToDoForm}
         />
         <ToDoArea 
         value={this.state.item.description}
         _handleChange={this.handleAreaChange.bind(this)}
-        _isToDoForm={this.isToDoForm}
         />
         <Button variant="primary" type="submit">
           Submit
@@ -191,7 +187,6 @@ const ItemForm = (props: any) => {
   // Variables below set and manage state. See docs: https://reactjs.org/docs/hooks-state.html
   const [name, setName] = useState(props.name);
   const [description, setDescription] = useState(props.description);
-  const isToDoForm = false;
   const currentId = props._currentId;
   console.log("name", name);
   console.log("description", description);
@@ -210,13 +205,11 @@ const ItemForm = (props: any) => {
               <ToDoInput 
                 _handleChange={(val: any) => setName(val)}
                 value={name}
-                _isToDoForm={isToDoForm}
               />
               
               <ToDoArea 
                 _handleChange={(val: any) => setDescription(val)}
                 value={description}
-                _isToDoForm={isToDoForm}
               />
               
               <Button variant="primary" type="submit">
